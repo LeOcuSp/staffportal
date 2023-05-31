@@ -99,6 +99,8 @@ if (isset($_POST['btn'])) {
     } else {
         echo "Error: " . $sql . "<br>" . $con->error;
     }
+    header("Location: login.php");
+exit();
 }
 $con->close();
 ?>
