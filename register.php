@@ -75,7 +75,7 @@
 </html>
 
 <?php
-
+require_once 'config.php';
 $con = mysqli_connect('localhost', 'root', '', 'ehssg');
 
 if ($con) {
