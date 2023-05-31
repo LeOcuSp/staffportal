@@ -58,8 +58,9 @@
 
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" name="btn" value="Register" />
-        
                     </div>
+
+                    <a href="login.php" class="btn btn-primary">Back to Login</a> <br /><br />
 
                     <input type="hidden" name="op" value="save" />
                 </form>
@@ -75,9 +76,7 @@
 </html>
 
 <?php
-require_once 'config.php';
 $con = mysqli_connect('localhost', 'root', '', 'ehssg');
-
 if ($con) {
     echo('');
 } else {
@@ -90,8 +89,10 @@ if (isset($_POST['btn'])) {
     $phone = $_POST['phone'];
     $password = $_POST['password'];
 
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     $sql = "INSERT INTO mytable (id, name, date, email, phone, password) 
-            VALUES (NULL, '$name', '$date', '$email', '$phone', '$password')";
+            VALUES (NULL, '$name', '$date', '$email', '$phone', '$hashedPassword')";
 
     if ($con->query($sql) === TRUE) {
         echo('');
