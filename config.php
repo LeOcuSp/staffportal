@@ -1,8 +1,7 @@
 <?php
-    $host = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "ehssg";
+    $pdo = mysqli_connect('localhost', 'root', '', 'ehssg');
 
-    $conn = mysqli_connect($host, $username, $password, $database);
+    if(!$pdo){
+        die('Error:'.mysqli_connect_error($pdo));
+    }
 ?>

@@ -1,12 +1,16 @@
 <?php
-require_once 'config.php';
-session_start();
+include_once "config.php";
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "ehssg";
 
-// Check if the user is already logged in
-if (isset($_SESSION['email'])) {
-    // User is already logged in, redirect to the content page
-    header("Location: content.php");
-    exit();
+// Establish a database connection (example using MySQLi)
+$connection = mysqli_connect($host, $username, $password, $database);
+
+if (!$connection) {
+    // Handle database connection error
+    die("Database connection failed: " . mysqli_connect_error());
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -14,39 +18,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Connect to the database
-    $con = mysqli_connect('localhost', 'root', '', 'ehssg');
-    if (!$con) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
+    if (isset($_POST["btn_login"])) {
+        // Query the database to check if the user exists
+        $query = "SELECT * FROM mytable WHERE email = '$email' LIMIT 1";
+        $result = mysqli_query($connection, $query);
 
-    // Prepare and execute the query
-    $sql = "SELECT * FROM mytable WHERE email = '$email'";
-    $result = mysqli_query($con, $sql);
-
-    if (mysqli_num_rows($result) == 1) {
-        // User exists, verify the password
-        $row = mysqli_fetch_assoc($result);
-        $hashedPassword = $row['password'];
-
-        if (password_verify($password, $hashedPassword)) {
-            // Password is correct, set the session variables and redirect to the content page
-            $_SESSION['email'] = $email;
-            header("Location: content.php");
-            exit();
+        if ($result && mysqli_num_rows($result) == 1) {
+            // User exists, validate the password
+            $user = mysqli_fetch_assoc($result);
+            if (password_verify($password, $user['password'])) {
+                // Password is correct, perform login logic here
+                // For example, set session variables and redirect to content.php
+                session_start();
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['email'] = $user['email'];
+                header("Location: navbar.php");
+                exit();
+            } else {
+                // Password is incorrect, display an error message
+                echo "Invalid password";
+            }
         } else {
-            // Invalid password
-            echo "Invalid email or password.";
+            // User does not exist, display an error message or redirect to an error page
+            echo "User not found";
         }
-    } else {
-        // User does not exist
-        echo "Invalid email or password.";
+    } elseif (isset($_POST["btn_register"])) {
+        // Redirect to register.php
+        header("Location: register.php");
+        exit();
+    } elseif (isset($_POST["btn_forgot_password"])) {
+        // Redirect to forgot_password.php
+        header("Location: forgot_password.php");
+        exit();
     }
-
-    mysqli_close($con);
 }
-?>
 
+// Close the database connection
+mysqli_close($connection);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,6 +68,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                </li>
+                <li class="nav-item">
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
 <title>EHSSG Staff Portal</title>
     <style>
         body {
@@ -90,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" name="btn" value="Login" />
+                <input type="submit" class="btn btn-primary" name="btn_login" value="Login" />
             </div>
         </form>
     </div>

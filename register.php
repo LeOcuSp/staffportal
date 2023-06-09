@@ -1,3 +1,32 @@
+<?php
+$con = mysqli_connect('localhost', 'root', '', 'ehssg');
+if ($con) {
+    echo('');
+} else {
+    echo('Failed to connect');
+}
+if (isset($_POST['btn'])) {
+    $name = $_POST['name'];
+    $date = $_POST['date'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password = $_POST['password'];
+
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO mytable (id, name, date, email, phone, password) 
+            VALUES (NULL, '$name', '$date', '$email', '$phone', '$hashedPassword')";
+
+    if ($con->query($sql) === TRUE) {
+        echo('Registration Success');
+    } else {
+        echo "Error: " . $sql . "<br>" . $con->error;
+    }
+    header("Location: login.php");
+exit();
+}
+$con->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,32 +104,4 @@
   </body>
 </html>
 
-<?php
-$con = mysqli_connect('localhost', 'root', '', 'ehssg');
-if ($con) {
-    echo('');
-} else {
-    echo('Failed to connect');
-}
-if (isset($_POST['btn'])) {
-    $name = $_POST['name'];
-    $date = $_POST['date'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $password = $_POST['password'];
 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    $sql = "INSERT INTO mytable (id, name, date, email, phone, password) 
-            VALUES (NULL, '$name', '$date', '$email', '$phone', '$hashedPassword')";
-
-    if ($con->query($sql) === TRUE) {
-        echo('');
-    } else {
-        echo "Error: " . $sql . "<br>" . $con->error;
-    }
-    header("Location: login.php");
-exit();
-}
-$con->close();
-?>
