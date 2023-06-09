@@ -6,16 +6,16 @@ if ($con) {
     echo('Failed to connect');
 }
 if (isset($_POST['btn'])) {
-    $name = $_POST['name'];
-    $date = $_POST['date'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $password = $_POST['password'];
+    $user_name = $_POST['user_name'];
+    $user_date = $_POST['user_date'];
+    $user_email = $_POST['user_email'];
+    $user_phone = $_POST['user_phone'];
+    $user_password = $_POST['user_password'];
 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $hashedPassword = password_hash($user_password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO mytable (id, name, date, email, phone, password) 
-            VALUES (NULL, '$name', '$date', '$email', '$phone', '$hashedPassword')";
+    $sql = "INSERT INTO tbl_user (user_id, user_name, user_date, user_email, user_phone, user_password) 
+            VALUES (NULL, '$user_name', '$user_date', '$user_email', '$user_phone', '$hashedPassword')";
 
     if ($con->query($sql) === TRUE) {
         echo('Registration Success');
@@ -58,31 +58,31 @@ $con->close();
         <h1>EHSSG STAFF PORTAL</h1>
     </div>
     <div class="container">
-                <form class="" id="" name="" method="post" action="">
+                <form class="" user_id="" user_name="" method="post" action="">
 
                     <div class="form-group">
                         <label>Name:</label>
-                        <input type="text" class="form-control" name="name" required/>
+                        <input type="text" class="form-control" name="user_name" required/>
                     </div>
 
                     <div class="form-group">
                         <label>Date of birth:</label>
-                        <input type="date" class="form-control" name="date" required onChange="form.pass2.pattern=this.value" />
+                        <input type="date" class="form-control" name="user_date" required onChange="form.pass2.pattern=this.value" />
                     </div>
 
                     <div class="form-group">
                         <label>Email:</label>
-                        <input type="email" class="form-control" name="email" required/>
+                        <input type="email" class="form-control" name="user_email" required/>
                     </div>
 
                     <div class="form-group">
                         <label>Phone:</label>
-                        <input type="phone" class="form-control" name="phone" required/>
+                        <input type="phone" class="form-control" name="user_phone" required/>
                     </div>
 
                     <div class="form-group">
                         <label>Password:</label>
-                        <input type="password" class="form-control" name="password" required onChange="form.pass2.pattern=this.value" />
+                        <input type="password" class="form-control" name="user_password" required onChange="form.pass2.pattern=this.value" />
                     </div>
 
                     <div class="form-group">

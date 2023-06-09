@@ -1,5 +1,6 @@
 <?php
 include_once "config.php";
+
 $host = "localhost";
 $username = "root";
 $password = "";
@@ -15,23 +16,23 @@ if (!$connection) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve the submitted email and password
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $user_email = $_POST['user_email'];
+    $user_password = $_POST['user_password'];
 
     if (isset($_POST["btn_login"])) {
         // Query the database to check if the user exists
-        $query = "SELECT * FROM mytable WHERE email = '$email' LIMIT 1";
+        $query = "SELECT * FROM tbl_user WHERE user_email = '$user_email' LIMIT 1";
         $result = mysqli_query($connection, $query);
 
         if ($result && mysqli_num_rows($result) == 1) {
             // User exists, validate the password
             $user = mysqli_fetch_assoc($result);
-            if (password_verify($password, $user['password'])) {
+            if (password_verify($user_password, $user['user_password'])) {
                 // Password is correct, perform login logic here
-                // For example, set session variables and redirect to content.php
+                // For example, set session variables and redirect to navbar.php
                 session_start();
-                $_SESSION['id'] = $user['id'];
-                $_SESSION['email'] = $user['email'];
+                $_SESSION['user_id'] = $user['user_id'];
+                $_SESSION['user_email'] = $user['user_email'];
                 header("Location: navbar.php");
                 exit();
             } else {
@@ -52,10 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
-
-// Close the database connection
-mysqli_close($connection);
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,12 +106,12 @@ mysqli_close($connection);
         <form method="post" action="">
             <div class="form-group">
                 <label>Email:</label>
-                <input type="email" class="form-control" name="email" required/>
+                <input type="email" class="form-control" name="user_email" required/>
             </div>
 
             <div class="form-group">
                 <label>Password:</label>
-                <input type="password" class="form-control" name="password" required/>
+                <input type="password" class="form-control" name="user_password" required/>
             </div>
 
             <div class="form-group">

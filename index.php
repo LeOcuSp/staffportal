@@ -15,22 +15,22 @@ if (!$connection) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve the submitted email and password
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $user_email = $_POST['user_email'];
+    $user_password = $_POST['user_password'];
 
     if (isset($_POST["btn_login"])) {
         // Query the database to check if the user exists
-        $query = "SELECT * FROM mytable WHERE email = '$email' LIMIT 1";
+        $query = "SELECT * FROM tbl_user WHERE user_email = '$user_email' LIMIT 1";
         $result = mysqli_query($connection, $query);
 
         if ($result && mysqli_num_rows($result) == 1) {
             // User exists, validate the password
             $user = mysqli_fetch_assoc($result);
-            if (password_verify($password, $user['password'])) {
+            if (password_verify($user_password, $user['user_password'])) {
                 // Password is correct, perform login logic here
                 // For example, set session variables and redirect to content.php
                 session_start();
-                $_SESSION['id'] = $user['id'];
+                $_SESSION['user_id'] = $user_id['user_id'];
                 header("Location: navbar.php");
                 exit();
             } else {
@@ -104,20 +104,20 @@ mysqli_close($connection);
     <form method="post" action="" id="loginForm">
         <div class="form-group">
             <label>Email:</label>
-            <input type="email" class="form-control" name="email" required/>
+            <input type="email" class="form-control" name="user_email" required/>
         </div>
 
         <div class="form-group">
             <label>Password:</label>
-            <input type="password" class="form-control" name="password" required/>
+            <input type="password" class="form-control" name="user_password" required/>
         </div>
 
         <div class="form-group">
             <input type="submit" class="btn btn-primary" name="btn_login" value="Login" />
-            <input type="submit" class="btn btn-primary" name="btn_register" value="Register" />
-            <input type="submit" class="btn btn-primary" name="btn_forgot_password" value="Forgot Password" />
         </div>
     </form>
+    <a class="btn btn-primary" href="register.php">Register</a>
+    <a class="btn btn-primary" href="">Forgot Password</a>
 </div>
 
 <!-- Optional JavaScript -->
