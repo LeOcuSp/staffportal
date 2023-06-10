@@ -62,7 +62,7 @@ if (!$user) {
     <style>
         th {
             border-bottom: 1px solid #364043;
-            color: #f8f9fa;
+            color: #1D4350;
             font-size: 0.85em;
             font-weight: 600;
             padding: 0.5em 1em;
@@ -76,7 +76,7 @@ if (!$user) {
         }
         
         th, td {
-            padding: 20px;
+            padding: 10px;
             text-align: center;
         }
         
@@ -89,7 +89,7 @@ if (!$user) {
             background: linear-gradient(to right, #64e383, #18d649, #00d4ff);
             /* Update with your desired gradient colors */
             color: #fff;
-            padding: 20px;
+            padding: 10px;
         }
     </style>
 </head>

@@ -117,7 +117,7 @@ mysqli_close($connection);
         </div>
     </form>
     <a class="btn btn-primary" href="register.php">Register</a>
-    <a class="btn btn-primary" href="">Forgot Password</a>
+    <a class="btn btn-primary" href="forgot_password.php">Forgot Password</a>
 </div>
 
 <!-- Optional JavaScript -->

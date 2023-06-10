@@ -73,7 +73,7 @@ $userData = $stmt->fetch(PDO::FETCH_ASSOC);
         nav {
             background: linear-gradient(to right, #64e383, #18d649, #00d4ff); /* Update with your desired gradient colors */
             color: #fff;
-            padding: 1px;
+            padding: 1.5px;
         }
         
         .menu li {
